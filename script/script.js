@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameBoard = document.getElementById('game-board');
     const startGameButton = document.getElementById('start-game-button');
     const resetButton = document.getElementById('reset-button');
+    const newGameButton = document.getElementById('new-game-button');
     const usernameInput = document.getElementById('username');
     const leaderboardList = document.getElementById('leaderboard-list');
 
@@ -16,26 +17,36 @@ document.addEventListener('DOMContentLoaded', () => {
     let time = 0;
     let timerInterval;
     let username = '';
-    let isProcessing = false;  // Flag to indicate if the game is processing a mismatch
+    let isProcessing = false;  
 
-    // Example leaderboard data structure
+    
     const leaderboard = [
         { name: 'test1', score: 35 },
-        { name: 'test2', score: 44 },
-        { name: 'test3', score: 48 }
+        { name: 'test2', score: 48 },
+        { name: 'test3', score: 44 }
     ];
 
     function updateLeaderboard() {
-        // Clear the existing leaderboard
         leaderboardList.innerHTML = '';
 
-        // Add the current player's score
         leaderboard.push({ name: username, score: time });
         
-        // Sort leaderboard by score in ascending order
+        
         leaderboard.sort((a, b) => a.score - b.score);
 
-        // Populate the leaderboard list
+        
+        leaderboard.forEach(player => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${player.name}: ${player.score}s`;
+            leaderboardList.appendChild(listItem);
+        });
+    }
+
+    function initializeLeaderboard() {
+        
+        leaderboard.sort((a, b) => b.score - a.score);
+
+       
         leaderboard.forEach(player => {
             const listItem = document.createElement('li');
             listItem.textContent = `${player.name}: ${player.score}s`;
@@ -56,6 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     resetButton.addEventListener('click', startGame);
+
+    newGameButton.addEventListener('click', () => {
+       
+        document.getElementById('registration').classList.remove('hidden');
+        gameBoard.classList.add('hidden');
+        document.querySelector('.controls').classList.add('hidden');
+        usernameInput.value = ''; 
+        leaderboardList.innerHTML = ''; 
+        initializeLeaderboard(); 
+    });
 
     function startGame() {
         shuffle(cards);
@@ -98,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkForMatch() {
-        isProcessing = true;  // Set the flag to true while processing
+        isProcessing = true; 
     
         if (firstCard.dataset.value === secondCard.dataset.value) {
             firstCard.classList.add('matched');
@@ -110,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(timerInterval);
                 updateLeaderboard();
             }
-            isProcessing = false;  // Reset the flag after processing
+            isProcessing = false; 
         } else {
             firstCard.classList.add('unmatched');
             secondCard.classList.add('unmatched');
@@ -120,8 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 firstCard.classList.remove('unmatched', 'flipped');
                 secondCard.classList.remove('unmatched', 'flipped');
                 resetFlip();
-                isProcessing = false;  // Reset the flag after processing
-            }, 500);  // Reduced delay to 500 milliseconds
+                isProcessing = false;  
+            }, 500);
         }
     }
     
@@ -143,4 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             [array[i], array[j]] = [array[j], array[i]];
         }
     }
+
+   
+    initializeLeaderboard();
 });
