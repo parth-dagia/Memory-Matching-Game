@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const cards = [
         'A', 'A', 'ᗺ', 'ᗺ', 'Ɔ', 'Ɔ', 'ᗡ', 'ᗡ',
-        'Ǝ', 'Ǝ', 'ꟻ', 'ꟻ', 'ວ', 'ວ', 'H', 'H'
+        'Ǝ', 'Ǝ', 'ꟻ', 'ꟻ', 'I', 'I', 'H', 'H'
     ];
 
     const gameBoard = document.getElementById('game-board');
