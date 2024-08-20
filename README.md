@@ -1,6 +1,4 @@
-Sure! Here's a README file for your memory matching game project:
 
----
 
 # Memory Matching Game
 
